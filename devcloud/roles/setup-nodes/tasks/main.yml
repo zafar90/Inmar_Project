@@ -1,0 +1,17 @@
+---
+
+- name: Copy the file to 
+  copy: 
+    src: "{{ role_path }}/files/{{ inventory_hostname }}"
+    dest: "/etc/sysconfig/network-scripts/ifcfg-ens33"
+
+- name: Restart the network service
+  service:
+    name: network
+    state: restarted
+
+- name: delete the ifconfig template from file folder location
+  file:
+   path: "{{ role_path }}/files/{{ inventory_hostname }}"
+   state: absent
+

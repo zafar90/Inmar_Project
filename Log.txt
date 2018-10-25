@@ -1,0 +1,32 @@
+Name Of Log  Actual Log
+  20150429  org.apache.catalina.core.ApplicationContext log Severe:   ContextListener: contextDestroyed()
+Name Of Log  Actual Log
+  20150430  org.apache.catalina.core.ApplicationContext log Severe:   ContextListener: contextDestroyed()
+Name Of Log  Actual Log
+  20150430  org.apache.catalina.core.ApplicationContext log Severe:   ContextListener: contextDestroyed()
+Name Of Log  Actual Log
+  20150430  org.apache.catalina.core.ApplicationContext log Severe:   ContextListener: contextDestroyed()
+Name Of Log  Actual Log
+  20150430  org.apache.catalina.core.ApplicationContext log Severe:   ContextListener: contextDestroyed()
+Name Of Log  Actual Log
+  20150427  org.apache.catalina.core.ApplicationContext log Severe:   ContextListener: contextDestroyed()
+Name Of Log  Actual Log
+  20150427  org.apache.catalina.core.ApplicationContext log Severe:   ContextListener: contextDestroyed()
+Name Of Log  Actual Log
+  20150428  org.apache.catalina.core.ApplicationContext log Severe:   ContextListener: contextDestroyed()
+Name Of Log  Actual Log
+  20150429  org.apache.catalina.core.ApplicationContext log Severe:   ContextListener: contextDestroyed()
+Name Of Log  Actual Log
+  20150429  org.apache.catalina.core.ApplicationContext log Severe:   ContextListener: contextDestroyed()
+Name Of Log  Actual Log
+  20150429  org.apache.catalina.core.ApplicationContext log Severe:   ContextListener: contextDestroyed()
+Name Of Log  Actual Log
+  20150429  org.apache.catalina.core.ApplicationContext log Severe:   ContextListener: contextDestroyed()
+Name Of Log  Actual Log
+  20150430  org.apache.catalina.core.ApplicationContext log Severe:   ContextListener: contextDestroyed()
+Name Of Log  Actual Log
+  20150430  org.apache.catalina.core.ApplicationContext log Severe:   ContextListener: contextDestroyed()
+Name Of Log  Actual Log
+  20150430  org.apache.catalina.core.ApplicationContext log Severe:   ContextListener: contextDestroyed()
+Name Of Log  Actual Log
+  20150430  org.apache.catalina.core.ApplicationContext log Severe:   ContextListener: contextDestroyed()

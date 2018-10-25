@@ -1,0 +1,19 @@
+- hosts: localhost
+  connection: local
+  become_user: root
+  become: yes
+  become_method: sudo
+  gather_facts: no
+
+  roles:
+    - { role: spininstance }
+
+
+- name: Set up node
+  hosts: prepare-nodes
+  become_user: root
+  become: yes
+  become_method: sudo
+  gather_facts: False
+  roles:
+      - setup-nodes

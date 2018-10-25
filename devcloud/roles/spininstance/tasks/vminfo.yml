@@ -1,0 +1,30 @@
+---
+
+- name: WebService call for get the VM info After 1200 seconds
+  uri:
+    url: "{{ devcloudurl }}/vm.info?vmid={{ item.json.result }}"
+    user: caasdevcloudose
+    password: interOP@123
+    validate_certs: False
+    status_code: 200
+    return_content: yes
+  register: vminfo
+  with_items: "{{  output.results }}"
+
+- name: printing VM Info
+  debug:
+    msg: "{{ vminfo.results }}"
+
+- name: Instance is not up and running after 1200 seconds, so it get failed
+  fail:
+  when: "item.json.result.vm_state != 'RUNNING'"
+  with_items: "{{ vminfo.results }}"
+
+- name: Printing IpAddress
+  debug: msg="{{ item.json.result.ip_addresses }}"
+  with_items: "{{ vminfo.results }}"
+
+- name: ping target machine
+  command: 'ping -c 4 {{ item.json.result.ip_addresses }}'
+  changed_when: false
+  with_items: "{{ vminfo.results }}"

@@ -1,0 +1,24 @@
+---
+
+- name: if vmid is undefined or empty, playbook get failed.
+  fail:
+  when: (( vmid is undefined ) or ( vmid is none ) or ( vmid | trim == ''))
+
+- debug: msg="{{ vmid }}"
+
+- name: WebService call for get the VM info
+  uri:
+    url: "{{ devcloudurl }}/vm.info?vmid={{ vmid }}"
+    user: caasdevcloudose
+    password: interOP@123
+    validate_certs: False
+    status_code: 200
+    return_content: yes
+    wait: true
+  with_sequence: count=2
+  register: output
+
+- name: printing VM Info
+  debug:
+    msg: " {{ item.json.error_code }} "
+  with_items: " {{output.results }} "

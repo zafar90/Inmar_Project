@@ -1,0 +1,6 @@
+---
+- hosts: tomcat
+  gather_facts: False
+  become: yes
+  roles:
+    - { role: tomcatdeploy }

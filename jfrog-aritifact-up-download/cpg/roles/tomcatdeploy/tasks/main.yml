@@ -1,0 +1,12 @@
+---
+- name: Tomcat stop
+  command: echo "Tomcat is going to be stopped....."
+  notify: stop tomcat
+
+- name: copy the war file to tomcat webapps folder
+  copy: src={{ deployfile }} dest=/usr/share/tomcat/webapps/ owner=root mode=777
+
+- name: Tomcat start
+  command: echo "Tomcat is going to be started....."
+  notify: start tomcat
+

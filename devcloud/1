@@ -1,0 +1,8 @@
+- hosts: int
+  become_user: root
+  become: yes
+  become_method: sudo
+  gather_facts: no
+
+  roles:
+    - { role: installcodedeployagent }

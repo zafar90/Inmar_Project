@@ -1,0 +1,44 @@
+---
+
+
+- name: if templateid is undefined or empty, playbook get failed.
+  fail:
+  when: (( templateid is undefined ) or ( templateid is none ) or ( templateid | trim == ''))
+
+- name: if type is undefined or empty, playbook get failed.
+  fail:
+  when: (( type is undefined ) or ( type is none ) or ( type | trim == ''))
+
+- name: set fact when count undefined
+  set_fact:
+    count: 1
+  when: "count is undefined"
+
+
+- debug: msg="{{ templateid }}"
+- debug: msg="{{ type }}"
+
+- name: set fact for set the type micro
+  set_fact:
+    typeval: "{{ vm_micro }}"
+  when: "type =='micro'"
+
+- name: set fact for set the type medium
+  set_fact:
+    typeval: "{{ vm_medium }}"
+  when: "type =='medium'"
+
+- name: set fact for set the type large
+  set_fact:
+    typeval: "{{ vm_large }}"
+  when: "type =='large'"
+
+- name: set fact for set the memory
+  set_fact:
+    memory: "{{ item[0]  }}"
+  with_items: "{{ typeval }}"
+
+- name: set fact for set the vcpu
+  set_fact:
+    vcpu: "{{ item[2]  }}"
+  with_items: "{{ typeval }}"

@@ -1,0 +1,14 @@
+---
+
+
+- include_vars: vars.yml
+
+#JFrog Artifactory Repository utility task section for upload the artifact via JFROG CLI
+- name: Upload the Artifacts to Jfrog repo
+  shell: /usr/local/go/bin/jfrog rt u --url http://{{ ipaddress }}:{{ jfrogport }}/artifactory/cpgweb_mvnrepo/ --user {{ username }} --password {{ password }} {{destlocation }}/cpg-web-{{ buildnumber }}.tar {{ env }}/cpg-web-{{ buildnumber }}.tar
+  when: common == "upload"
+
+#JFrog Artifactory Repository utility task section for download the artifact via JFROG CLI
+- name: Download the Artifacts from Jfrog repo
+  shell: /usr/local/go/bin/jfrog rt dl --url http://{{ ipaddress }}:{{ jfrogport }}/artifactory/ --user {{ username }} --password {{ password }} cpgweb_mvnrepo/{{ env }}//cpg-web-{{ buildnumber }}.tar {{ downloadpath }}
+  when: common == "download"

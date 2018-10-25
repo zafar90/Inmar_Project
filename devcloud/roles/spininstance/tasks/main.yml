@@ -1,0 +1,82 @@
+---
+
+- include: validate.yml
+
+- name: WebService call for spin the instance 
+  uri:
+    url: "{{ devcloudurl }}/vm.create?MEMORY={{ memory  }}&VCPU={{ vcpu }}&templateid={{ templateid }}"
+    user: caasdevcloudose
+    password: interOP@123
+    validate_certs: False
+    method: POST
+    status_code: 200
+    return_content: yes
+  register: output
+  with_sequence: count="{{ count }}"
+
+- name: printing VM Info
+  debug:
+    msg: " {{ output.results }} "
+
+
+- name: If error code is other than zero and success is other than one, it get fail
+  fail:
+  when: "( item.json.error_code != '0') and ( item.json.success != '1')"
+  with_items: "{{  output.results }}"
+
+- name: Wait for 1200 seconds to prepare instance configurations
+  wait_for:
+    timeout: 1200
+
+- include: vminfo.yml
+
+- stat: path="{{ playbook_dir }}/hosts"
+  register: hosts_file
+
+- name: delete the Host template to playbook_dir location which is the root of the playbook
+  file:
+   path: "{{ playbook_dir }}/hosts"
+   state: absent
+  when: hosts_file.stat.exists == True
+
+- name: copy the Host to playbook_dir location which is the root of the playbook
+  local_action: copy
+       src="{{ role_path }}/files/hosts"
+       dest="{{ playbook_dir }}"
+
+- name: Add the newly created instance(s) to the local host group (located inside the directory)
+  local_action: lineinfile
+      dest="{{ playbook_dir }}/hosts"
+      regexp="{{ item.json.result.ip_addresses }}"
+      insertbefore="prepare-nodes:vars" line="{{ item.json.result.ip_addresses }}"
+  with_items: "{{ vminfo.results }}"
+
+- name: Refresh inventory to ensure new instaces exist in inventory
+  meta: refresh_inventory
+
+- name: coping the file 
+  local_action: copy
+      src="{{ role_path }}/files/ifcfg-ens33"
+      dest="{{ role_path }}/files/{{ item.json.result.ip_addresses }}"
+  with_items: "{{  vminfo.results }}"
+
+- name: Replace the IPAddress
+  local_action: lineinfile
+      dest="{{ role_path }}/files/{{ item.json.result.ip_addresses }}"
+      regexp="IPADDR="
+      line="IPADDR={{ item.json.result.ip_addresses }}"
+  with_items: "{{  vminfo.results }}"
+
+- name: copy the file to set-node location
+  local_action: copy
+       src="{{ role_path }}/files/{{ item.json.result.ip_addresses }}"
+       dest="{{ playbook_dir }}/roles/setup-nodes/files/"
+  with_items: "{{  vminfo.results }}"
+
+- name: delete the ifconfig template from file folder location
+  file:
+   path: "{{ role_path }}/files/{{ item.json.result.ip_addresses }}"
+   state: absent
+  with_items: "{{  vminfo.results }}"
+
+

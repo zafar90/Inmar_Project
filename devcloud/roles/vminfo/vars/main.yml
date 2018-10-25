@@ -1,0 +1,5 @@
+---
+
+vm_micro: 8,1 
+vm_medium: 16,2
+vm_large: 32,8

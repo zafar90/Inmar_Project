@@ -1,0 +1,72 @@
+#!/bin/bash
+
+
+hub_pid() {
+        echo `ps -fe | grep java | grep -v grep | tr -s " "|cut -d" " -f2`
+}
+
+start() {
+  pid=$(hub_pid)
+  if [ -n "$pid" ]
+  then
+    echo -e "\e[00;31mSelenium Hub is already running (pid: $pid)\e[00m"
+  else
+    # Start Selenium Hub
+    echo -e "\e[00;32mStarting Selenium Hub\e[00m"
+    nohup java -jar /selenium/selenium-server-standalone-3.14.0.jar -role hub >/dev/null 2>&1 &
+     status
+  fi
+  return 0
+}
+
+status(){
+          pid=$(hub_pid)
+          if [ -n "$pid" ]; then echo -e "\e[00;32mSelenium Hub is running with pid: $pid\e[00m"
+          else echo -e "\e[00;31mSelenium Hub is not running\e[00m"
+          fi
+}
+
+stop() {
+     pid=$(hub_pid)
+  if [ -n "$pid" ]
+  then
+
+      kill -9 $pid
+      echo "selenium Hub is stopped"
+ else
+    echo "selenium Hub is allready stopped mode"
+ fi
+
+}
+user_exists(){
+        if id -u $1 >/dev/null 2>&1; then
+        echo "1"
+        else
+                echo "0"
+        fi
+}
+
+case $1 in
+
+        start)
+          start
+        ;;
+
+        stop)
+          stop
+        ;;
+
+        restart)
+          stop
+          start
+        ;;
+
+        status)
+                status
+
+        ;;
+
+        *)
+        ;;
+esac
+exit 0
